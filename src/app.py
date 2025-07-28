@@ -20,6 +20,55 @@ app.mount("/static", StaticFiles(directory=os.path.join(Path(__file__).parent,
           "static")), name="static")
 
 # In-memory activity database
+# Add more activities to the in-memory database
+# Sports related
+# - Soccer Team
+# - Basketball Team
+# Artistic
+# - Drama Club
+# - Art Workshop
+# Intellectual
+# - Debate Team
+# - Math Olympiad
+
+activities = {
+    "Soccer Team": {
+        "description": "Join the school soccer team and compete in local leagues",
+        "schedule": "Wednesdays, 4:00 PM - 6:00 PM",
+        "max_participants": 22,
+        "participants": []
+    },
+    "Basketball Team": {
+        "description": "Practice and play basketball with fellow students",
+        "schedule": "Mondays and Thursdays, 5:00 PM - 7:00 PM",
+        "max_participants": 15,
+        "participants": []
+    },
+    "Drama Club": {
+        "description": "Act, direct, and produce plays and performances",
+        "schedule": "Tuesdays, 4:00 PM - 5:30 PM",
+        "max_participants": 18,
+        "participants": []
+    },
+    "Art Workshop": {
+        "description": "Explore painting, drawing, and sculpture techniques",
+        "schedule": "Fridays, 2:00 PM - 4:00 PM",
+        "max_participants": 16,
+        "participants": []
+    },
+    "Debate Team": {
+        "description": "Develop public speaking and argumentation skills",
+        "schedule": "Thursdays, 3:30 PM - 5:00 PM",
+        "max_participants": 10,
+        "participants": []
+    },
+    "Math Olympiad": {
+        "description": "Prepare for math competitions and solve challenging problems",
+        "schedule": "Wednesdays, 3:30 PM - 5:00 PM",
+        "max_participants": 12,
+        "participants": []
+    },
+}
 activities = {
     "Chess Club": {
         "description": "Learn strategies and compete in chess tournaments",
@@ -55,6 +104,9 @@ def get_activities():
 @app.post("/activities/{activity_name}/signup")
 def signup_for_activity(activity_name: str, email: str):
     """Sign up a student for an activity"""
+    # Validate student is not already signed up
+    if not email:
+        raise HTTPException(status_code=400, detail="Email is required")
     # Validate activity exists
     if activity_name not in activities:
         raise HTTPException(status_code=404, detail="Activity not found")
